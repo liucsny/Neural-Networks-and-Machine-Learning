@@ -141,13 +141,13 @@ function draw(){
     });
   });
 
-  // closedSet.forEach(spot=>{
-  //   spot.show(color(235,235,235))
-  // })
+  closedSet.forEach(spot=>{
+    spot.show(color(235,235,235))
+  })
 
-  // openSet.forEach(spot=>{
-  //   spot.show(color(0,235,0))
-  // })
+  openSet.forEach(spot=>{
+    spot.show(color(0,235,0))
+  })
 
 
   beginShape();
