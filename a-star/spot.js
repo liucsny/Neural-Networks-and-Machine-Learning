@@ -4,6 +4,7 @@ function Spot(x,y){
   this.h = 0;
   this.x = x;
   this.y = y;
+  this.pervious = undefined;
   this.neighbors = [];
 }
 

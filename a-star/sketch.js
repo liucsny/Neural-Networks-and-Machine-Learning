@@ -6,6 +6,7 @@ let openSet = [];
 let closedSet = [];
 let start, end;
 let w, h;
+let path;
 
 function setup() {
   createCanvas(800, 800);
@@ -27,7 +28,7 @@ function setup() {
   // console.log(grid)
 
   start = grid[40][40];
-  end = grid[cols - 1][rows - 1];
+  end = grid[10][0];
   w = width / cols;
   h = height / rows;
 
@@ -51,12 +52,20 @@ function draw(){
       }
     }
 
-    if (openSet[winner] === end) {
-      console.log('Done!');
-    }
-
     let current = openSet[winner];
 
+    if (openSet[winner] === end) {
+      console.log('Done!');
+      noLoop();
+    }
+
+    let temp = current;
+    path = [];
+    path.push(temp);
+    while(!!temp.previous){
+      path.push(temp.previous);
+      temp = temp.previous;
+    }
     openSet.remove(current);
     closedSet.push(current);
 
@@ -80,6 +89,7 @@ function draw(){
 
         neighbor.h = heuristic(neighbor, end);
         neighbor.f = neighbor.g + neighbor.h;
+        neighbor.previous = current;
       }
 
     })
@@ -99,6 +109,17 @@ function draw(){
   openSet.forEach(spot=>{
     spot.show(color(0,235,0))
   })
+
+  path.forEach(spot=>{
+    spot.show(color(0,0,235))
+  })
+
+  // for (let i = 0; i < path.length; i++) {
+  //   path[i].show(color(0,0,235))
+  // }
+
+  start.show(color('#12AFD2'));
+  end.show(color('#6A12D2'));
 }
 
 
