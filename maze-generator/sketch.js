@@ -3,9 +3,11 @@ let w = 20;
 let grid = [];
 let current;
 
+let stack = [];
+
 function setup() {
   createCanvas(800, 800);
-  frameRate(5);
+  // frameRate(10);
   cols = floor(width/w);
   rows = floor(height/w);
 
@@ -40,8 +42,13 @@ function draw(){
 
   if(next){
     next.visited = true;
+    
+    stack.push(current);
+
     removeWalls(current, next);
     current = next;
+  } else if (stack.length > 0){
+    current = stack.pop();
   }
 }
 
