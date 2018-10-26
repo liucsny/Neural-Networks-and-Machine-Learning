@@ -4,6 +4,8 @@ let recordDistance;
 let bestEver;
 let orders = [];
 
+let count = 0;
+
 function setup() {
   createCanvas(800, 800);
   for (let i = 0; i < totalCities; i++) {
@@ -58,13 +60,16 @@ function draw(){
   }
 
   textSize(32);
-  let s = '';
-  for (let i = 0; i < orders.length; i++) {
-    s += orders[i];
-  }
+  // let s = '';
+  // for (let i = 0; i < orders.length; i++) {
+  //   s += orders[i];
+  // }
   fill(255);
   noStroke();
-  text(s, 20, 50);
+  // text(s, 20, 50);
+
+  let percent = 100 * (count/ factorial(totalCities))
+  text(nf(percent, 0, 2)+'%', 20, 50);
 
   orders = nextOrder(orders);
 }
@@ -88,6 +93,8 @@ function calcDistance(points, orders) {
 
 
 function nextOrder(array) {
+  count ++;
+  
   let largestI = -1;
 
   for (let i = 0; i < array.length; i++) {
@@ -122,4 +129,12 @@ Array.prototype.swap = function(i, j){
   let temp = this[i];
   this[i] = this[j];
   this[j] = temp;
+}
+
+function factorial(val){
+  if(val == 1){
+    return 1
+  } else {
+    return val * factorial(val - 1)
+  }
 }
