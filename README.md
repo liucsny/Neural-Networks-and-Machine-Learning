@@ -5,13 +5,15 @@ A Personal practice project for learning [Neural Networks and Machine Learning](
 **Additional Library:** [P5.js](https://p5js.org)
 
 
-## Session - 1 Algorithms and Graphs - Intelligence and Learning
+## Session 1 - Algorithms and Graphs - Intelligence and Learning
 
 - A - Star Path Finding
 - Breadth First Search
 - Maze Generator
 - Saleman Problem
 - Lexicographic Order
+
+## Session 2 - Genetic Algorithms
 
 ## Local Serving
 ``` bash

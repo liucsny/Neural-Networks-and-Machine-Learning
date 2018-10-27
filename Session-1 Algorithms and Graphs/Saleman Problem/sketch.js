@@ -1,5 +1,5 @@
 let cities = [];
-let totalCities = 7;
+let totalCities = 10;
 let recordDistance;
 let bestEver;
 let orders = [];
