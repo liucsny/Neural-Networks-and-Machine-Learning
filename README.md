@@ -5,7 +5,7 @@ A Personal practice project for learning [Neural Networks and Machine Learning](
 **Additional Library:** [P5.js](https://p5js.org)
 
 
-## Session 1 - Algorithms and Graphs - Intelligence and Learning
+## Session 1 - Algorithms and Graphs
 
 - A - Star Path Finding
 - Breadth First Search
@@ -14,6 +14,7 @@ A Personal practice project for learning [Neural Networks and Machine Learning](
 - Lexicographic Order
 
 ## Session 2 - Genetic Algorithms
+- Genetic Algorithm Finding Phase
 
 ## Local Serving
 ``` bash
