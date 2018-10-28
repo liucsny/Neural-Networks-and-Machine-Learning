@@ -1,6 +1,6 @@
 let target = 'To be or not to be that is a question.'
 let population;
-let populationNum = 25;
+let populationNum = 100;
 let maxLength = target.length;
 let mutationRate = 0.01;
 
@@ -20,20 +20,28 @@ function draw(){
   // STEP 2 Select
   population.select();
 
-  // STEP 3 Crossover
-  population.crossover(mutationRate);
+  // STEP 3 Crossover and Mutate
+  population.crossover();
+  population.mutate(mutationRate);
+
+  // STEP 4 Reproduct
+  population.reproduct();
 
   population.show(480, 24, 24);
 
-  console.log(population.matingPool)
+  // console.log(population.matingPool)
 
   textSize(24);
   text(population.getBestPopulation().phenotype, 12, 280);
 
 
   textSize(16);
-  text(population.getBestPopulation().fitness, 12, 300);
+  text(population.getBestPopulation().fitness, 12, 320);
 
-  // console.log(population)
+  if(population.getBestPopulation().phenotype === target){
+    noLoop();
+  }
+
+  // console.log(population.matingPool)
   // noLoop();
 }

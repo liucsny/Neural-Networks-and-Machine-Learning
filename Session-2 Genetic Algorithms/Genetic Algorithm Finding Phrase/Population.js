@@ -22,31 +22,24 @@ Population.prototype.init = function(maxLength){
 
 // STEP 2 Select
 Population.prototype.select = function(){
-  let _tempPool = [];
   this.matingPool = [];
 
   this.dnas.forEach(dna => {
     dna.setFitness(this.target)
-    if(dna.fitness > 0){
-      _tempPool.push(dna)
-    }
   })
 
-  if(_tempPool.length == 0){
-    this.init(this.maxLength)
-    this.matingPool = this.dnas
-  } else {
-    let totalFitness = _tempPool.sum('fitness')
+  this.dnas.sort((a, b)=>{
+    return b.fitness - a.fitness
+  })
 
-    _tempPool.forEach(dna=>{
-      // console.log("dna.fitness: ",dna.fitness)
-      let likelihood = Math.floor(dna.fitness/totalFitness * 100)
-      // console.log("likelihood: ", likelihood)
-      for (let i = 0; i < likelihood; i++) {
-        this.matingPool.push(dna)
+  for (let i = 0; i < 100; i++) {
+    if(!!this.dnas[i]){
+      for (let j = 0; j < this.dnas[i].fitness * 100; j++) {
+        this.matingPool.push(this.dnas[i])
       }
-    })
+    }
   }
+
 }
 
 Population.prototype.getBestPopulation = function(){
@@ -66,29 +59,33 @@ Population.prototype.getBestPopulation = function(){
   }
 }
 
-// STEP 3 Crossover
-Population.prototype.crossover = function(mutationRate){
+// STEP 3 Crossover and Mutate
+Population.prototype.crossover = function(){
   for (let i = 0; i < this.population.length; i++) {
     let _a = Math.floor(Math.random() * this.matingPool.length)
     let _b = Math.floor(Math.random() * this.matingPool.length)
-    let _parentA = this.matingPool[_a];
-    let _parentB = this.matingPool[_b];
-    // console.log(this.matingPool)
-    
-    // console.log(this.matingPool);
-    // console.log('_parentA:' + _parentA);
-    // console.log('_parentB:' + _parentB);
+    let _parentDNA_A = this.matingPool[_a];
+    let _parentDNA_B = this.matingPool[_b];
   
-    let _child = _parentA.crossover(_parentB);
-  
-    _child.mutate(mutationRate);
+    let _childDNA = _parentDNA_A.crossover(_parentDNA_B);
+    this.dnas[i] = _childDNA;
+    this.dnas[i].setFitness(this.target);
 
-    this.population[i] = _child.gene.join('');
-    this.dnas[i] = _child
+  }
+}
+
+Population.prototype.mutate = function(mutationRate){
+  for (let i = 0; i < this.dnas.length; i++) {
+    this.dnas[i].mutate(mutationRate);
     this.dnas[i].setFitness(this.target)
   }
 }
 
+Population.prototype.reproduct = function(){
+  for (let i = 0; i < this.dnas.length; i++) {
+    this.population[i] = this.dnas[i].gene.join('');
+  }
+}
 
 
 Population.prototype.show = function(x, y, s){
@@ -96,12 +93,4 @@ Population.prototype.show = function(x, y, s){
     textSize(14);
     text(this.population[i], x, i * s + y)
   }
-}
-
-Array.prototype.sum = function (prop) {
-  var total = 0
-  for ( let i = 0 ; i < this.length; i++ ) {
-      total += this[i][prop]
-  }
-  return total
 }
