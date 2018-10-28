@@ -23,6 +23,7 @@ Population.prototype.init = function(maxLength){
 // STEP 2 Select
 Population.prototype.select = function(){
   let _tempPool = [];
+  this.matingPool = [];
 
   this.dnas.forEach(dna => {
     dna.setFitness(this.target)

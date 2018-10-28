@@ -25,6 +25,8 @@ function draw(){
 
   population.show(480, 24, 24);
 
+  console.log(population.matingPool)
+
   textSize(24);
   text(population.getBestPopulation().phenotype, 12, 280);
 
