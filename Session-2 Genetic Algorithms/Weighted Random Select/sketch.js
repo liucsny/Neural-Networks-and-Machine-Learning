@@ -2,7 +2,11 @@ let population = [
   ["unicron", 100],
   ["popcorn", 404],
   ["aaaaaah", 788],
-  ["isotope", 220]
+  ["isotope", 130],
+  ["unicron", 550],
+  ["popcorn", 574],
+  ["aaaaaah", 248],
+  ["isotope", 430]
 ]
 
 let checkPoints = [];
@@ -15,7 +19,7 @@ let maxWeight;
 let topMargin = 20;
 let leftMargin = 140;
 let H = 400;
-let w = 200;
+let w = 100;
 let barW = 40;
 
 let dots = [];

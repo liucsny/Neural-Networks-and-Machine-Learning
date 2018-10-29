@@ -7,7 +7,7 @@ class Dot {
 
   display(){
     fill(this.color);
-    noStroke();
+    // noStroke();
     ellipse(this.x, this.y, 6, 6);
   }
 
