@@ -1,7 +1,7 @@
 function DNA(maxLength = 0){
   this.gene = [];
   this.fitness = 0;
-  this.posibile = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .'
+  this.posibile = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .,'
 
 }
 
@@ -31,11 +31,8 @@ DNA.prototype.setFitness = function(target){
     }
   }
 
-  // if(this.gene.length != target.length){
-  //   _score -= 2
-  // }
-
   this.fitness = _score/target.length;
+  this.fitness = pow(this.fitness, 4)
 }
 
 DNA.prototype.crossover = function(dna){

@@ -14,7 +14,7 @@ A Personal practice project for learning [Neural Networks and Machine Learning](
 - Lexicographic Order
 
 ## Session 2 - Genetic Algorithms
-- Genetic Algorithm Finding Phase
+- Finding Phrase Genetic Algorithm
 
 ## Local Serving
 ``` bash
