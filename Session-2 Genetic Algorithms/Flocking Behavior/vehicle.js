@@ -1,17 +1,45 @@
-function Vehicle({x = random(0, width), y = random(0, height), vx = random(-1 , 1), vy = random(-1 , 1), size = random(1, 5), maxSpeed = 3, maxForce = 0.5, slowDownMargin = 30, scope = 300, slowDownSpeed = 1} = {}){
+function Vehicle({x = random(0, width), 
+                  y = random(0, height), 
+                  vx = random(-1 , 1), 
+                  vy = random(-1 , 1), 
+                  // size = random(1, 5), 
+                  maxSpeed = 3, 
+                  maxForce = 0.5, 
+                  slowDownMargin = 30, 
+                  scope = 300, 
+                  slowDownSpeed = 1, 
+                  eatDist = 2, 
+                  walkAroundSpeed = 1,
+                  initHealth = random(1, 5),
+                  maxHealth = 10,
+                  healthDown = 0.01
+                } = {}){
+  
   this.position = createVector(x, y);
   this.velocity = createVector(vx, vy);
   this.acceleration = createVector();
+  
   this.maxSpeed = maxSpeed;
-  this.size = size;
+  this.size = initHealth;
+  
   this.maxForce = maxForce;
+  
   this.slowDownMargin = slowDownMargin;
   this.slowDownSpeed = slowDownSpeed;
+  
   this.scope = scope;
+  
+  this.eatDist = eatDist;
+
+  this.walkAroundSpeed = walkAroundSpeed;
+
+  this.health = initHealth;
+  this.healthDown = healthDown;
+  this.maxHealth = maxHealth * sqrt(this.size);
+
   this.velocity.setMag(this.maxspeed);
 
   this.noiseRands = [random(-3000, 3000), random(-3000, 3000), random(-3000, 3000)]
-
   this.frame = 0;
 
   this.dna = []
@@ -21,18 +49,21 @@ function Vehicle({x = random(0, width), y = random(0, height), vx = random(-1 , 
 
 Vehicle.prototype.display = function(){
   let theta = this.velocity.heading() + PI / 2;
+  let opacity = map(this.health, 0, 1, 20 ,255)
+
   push();
   translate(this.position.x, this.position.y);
   noFill();
   ellipse(0, 0, this.scope * 2)
   rotate(theta);
-  fill(255);
-  strokeWeight(1);
-  stroke(255);
+  fill(color(255, 255, 255, opacity));
+  // strokeWeight(1);
+  // stroke(255);
+  noStroke();
   beginShape();
-  vertex(0, -this.size * 2);
-  vertex(-this.size, this.size * 2);
-  vertex(this.size, this.size * 2);
+  vertex(0, -sqrt(this.size) * 2);
+  vertex(-sqrt(this.size), sqrt(this.size) * 2);
+  vertex(sqrt(this.size), sqrt(this.size) * 2);
   endShape(CLOSE);
   pop();
 }
@@ -42,6 +73,8 @@ Vehicle.prototype.update = function(){
   this.velocity.add(this.acceleration);
   this.position.add(this.velocity);
   this.acceleration.mult(0);
+  this.health -= this.healthDown;
+  this.size -= this.healthDown;
   this.frame++;
 
   this.boundaries();
@@ -98,7 +131,13 @@ Vehicle.prototype.eat = function(foods) {
   })
 
   if(minDist < this.scope){
-    if(minDist < 2){
+    if(minDist < this.eatDist){
+      this.health += foods[closetIndex].nutrition
+      this.size += foods[closetIndex].nutrition
+      if(this.health > this.maxHealth){
+        this.health = this.maxHealth
+        this.size = this.maxHealth
+      }
       foods.splice(closetIndex, 1)
     } else if(closetIndex != -1) {
       this.seek(foods[closetIndex].position);
@@ -114,9 +153,10 @@ Vehicle.prototype.walkAround = function(){
   let x = noise((this.frame + this.noiseRands[0]) * 0.01) * 2 - 1;
   let y = noise(((this.frame + this.noiseRands[1]) + this.noiseRands[2]) * 0.01) * 2 - 1;
 
-  let desired = createVector(x,y)
+  let desired = createVector(x,y);
+  desired = p5.Vector.add(desired, this.velocity * 4);
   desired.normalize();
-  desired.mult(this.maxSpeed / 2);
+  desired.mult(this.walkAroundSpeed);
 
   let steering = p5.Vector.sub(desired, this.velocity);
 
@@ -126,6 +166,15 @@ Vehicle.prototype.walkAround = function(){
 Vehicle.prototype.separate = function(){
 
 }
+
+Vehicle.prototype.isDead = function(){
+  if(this.health < 0){
+    return true;
+  } else {
+    return false;
+  }
+}
+
 
 Vehicle.prototype.boundaries = function() {
   let margin = 0;
