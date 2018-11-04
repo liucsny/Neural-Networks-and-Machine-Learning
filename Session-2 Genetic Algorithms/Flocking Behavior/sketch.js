@@ -1,7 +1,7 @@
-let flockNum = 200;
+let flockNum = 2;
 let flock;
 
-let foodsNum = 100;
+let foodsNum = 10;
 let foods = [];
 
 function setup(){
@@ -22,7 +22,8 @@ function setup(){
 function draw(){
   background(12);
 
-  let prob = map(sin(frameCount/500), -1, 1, 0.04, 0.2)
+  let prob = map(sin(frameCount/500), -1, 1, 0.04, 0.1)
+  // let prob =0.1
 
 
   if(random() < prob){
@@ -33,7 +34,7 @@ function draw(){
     food.show();
   })
 
-  flock.run();
+  flock.run(foods);
 
   // fill(color(255,255,255,100))
   // ellipse(mouseX, mouseY,100,100)

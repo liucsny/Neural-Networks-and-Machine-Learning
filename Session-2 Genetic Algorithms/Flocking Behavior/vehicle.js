@@ -6,57 +6,78 @@ function Vehicle({x = random(0, width),
                   maxSpeed = 3, 
                   maxForce = 1, 
                   slowDownMargin = 30, 
-                  scope = 300, 
+                  scope = random(20, 100),
                   slowDownSpeed = 1, 
-                  eatDist = 2, 
+                  eatFoodRadius = 2,
+                  eatPoisonRadius = 2,
                   walkAroundSpeed = 1,
-                  initHealth = random(1, 5),
-                  maxHealth = 10,
+                  initHealth = 3,
+                  maxHealth = 100,
                   healthDown = 0.01,
-                  separateWeight = random(-2, 2),
-                  alignWeight = random(-2, 2),
+                  separateWeight = random(-1, 3),
+                  alignWeight = random(-1, 3),
                   cohesionWeight = random(-0.2, 0.2),
                   desiredSeparation = 25.0,
                   neighbordist = 50.0,
+                  foodDistWeight = 1,
+                  foodNutritionWeight = 1,
+                  birthRate = 0.05,
+                  birthHealth = random(3, 10)
+                  // birthRate = 0
                 } = {}){
-  
+
+  // physics value
   this.position = createVector(x, y);
   this.velocity = createVector(vx, vy);
   this.acceleration = createVector();
   
+  // running ability params
   this.maxSpeed = maxSpeed;
-  this.size = initHealth;
-  
   this.maxForce = maxForce;
-  
+
+  this.walkAroundSpeed = walkAroundSpeed;
+
   this.slowDownMargin = slowDownMargin;
   this.slowDownSpeed = slowDownSpeed;
+
+  // health params
+  this.size = initHealth;
+  this.health = initHealth;
+  this.healthDown = healthDown;
+  this.maxHealth = maxHealth * sqrt(this.size);
   
+  // vision params
   this.scope = scope;
   
   // flock behavior params
   this.desiredSeparation = desiredSeparation;
   this.neighbordist = neighbordist;
   this.desiredSeparation = desiredSeparation;
-  
-  this.eatDist = eatDist;
-
-  this.walkAroundSpeed = walkAroundSpeed;
-
-  this.health = initHealth;
-  this.healthDown = healthDown;
-  this.maxHealth = maxHealth * sqrt(this.size);
 
   this.separateWeight = separateWeight;
   this.alignWeight = alignWeight;
   this.cohesionWeight = cohesionWeight;
 
-  this.velocity.setMag(this.maxspeed);
+  // food seek params
+  this.foodDistWeight = foodDistWeight;
+  this.foodNutritionWeight = foodNutritionWeight;
+  
+  // predation radius params
+  this.eatFoodRadius = eatFoodRadius;
+  this.eatPoisonRadius = eatPoisonRadius;
 
+  this.birthRate = birthRate;
+  this.birthHealth = birthHealth;
+
+  // init value
   this.noiseRands = [random(-3000, 3000), random(-3000, 3000), random(-3000, 3000)]
   this.frame = 0;
 
   this.dna = []
+
+  this.count = 0;
+
+  // this.velocity.setMag(this.maxspeed);
 }
 
 
@@ -75,11 +96,18 @@ Vehicle.prototype.display = function(){
   // stroke(255);
   noStroke();
   beginShape();
-  vertex(0, -sqrt(this.size) * 2);
-  vertex(-sqrt(this.size), sqrt(this.size) * 2);
-  vertex(sqrt(this.size), sqrt(this.size) * 2);
+  vertex(0, -sqrt(this.size + 2) * 2);
+  // console.log(this.size)
+  vertex(-sqrt(this.size + 2), sqrt(this.size + 2) * 2);
+  vertex(sqrt(this.size + 2), sqrt(this.size + 2) * 2);
   endShape(CLOSE);
+  fill(255, 255, 255, 10)
+  ellipse(0, 0, this.scope * 2)
   pop();
+
+  // textSize(12);
+  // fill(255);
+  // text(this.count, this.position.x, this.position.y)
 }
 
 Vehicle.prototype.update = function(){
@@ -91,7 +119,8 @@ Vehicle.prototype.update = function(){
   this.size -= this.healthDown;
   this.frame++;
 
-  this.boundaries();
+  // this.boundaries();
+  this.infintBoundaries();
 }
 
 
@@ -147,7 +176,7 @@ Vehicle.prototype.eat = function(foods) {
   })
 
   if(minDist < this.scope){
-    if(minDist < this.eatDist){
+    if(minDist < this.eatFoodRadius){
       this.health += foods[closetIndex].nutrition
       this.size += foods[closetIndex].nutrition
       if(this.health > this.maxHealth){
@@ -265,6 +294,38 @@ Vehicle.prototype.flock = function(vehicles){
   this.applyForce(cohesionForce);
 }
 
+Vehicle.prototype.birth = function(flock) {
+  let r = random(1);
+  this.count = 0;
+  // let count = 0;
+
+  flock.boids.forEach((vehicle,i)=>{
+    let d = p5.Vector.dist(this.position, vehicle.position);
+    if((d > 0) && (d < this.scope)){
+      this.count++;
+    }
+  })
+
+  if(this.count <= 1){
+    if ((r < this.birthRate) && (this.health > this.birthHealth)) {
+      // Same location, same DNA
+      this.health -= 3
+      this.size -= 3
+      flock.addBoid(new Vehicle({x:this.position.x, y:this.position.y}));
+    }
+  } else {
+    if ((r < this.birthRate * 0) && (this.health > this.birthHealth)) {
+      // Same location, same DNA
+      this.health -= 3
+      this.size -= 3
+      console.log('birth');
+      flock.addBoid(new Vehicle({x:this.position.x, y:this.position.y}));
+    }
+  }
+
+
+}
+
 Vehicle.prototype.isDead = function(){
   if(this.health < 0){
     return true;
@@ -296,3 +357,17 @@ Vehicle.prototype.boundaries = function() {
   }
 }
 
+Vehicle.prototype.infintBoundaries = function() {
+  let desired = null;
+  if (this.position.x < 0) {
+    this.position.x = width;
+  } else if (this.position.x > width) {
+    this.position.x = 0;
+  }
+
+  if (this.position.y < 0) {
+    this.position.y = height;
+  } else if (this.position.y > height - 0) {
+    this.position.y = 0;
+  }
+}
