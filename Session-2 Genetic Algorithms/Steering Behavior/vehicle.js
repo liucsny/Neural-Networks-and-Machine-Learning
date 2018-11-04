@@ -104,25 +104,25 @@ Vehicle.prototype.eat = function(foods) {
 
 
 Vehicle.prototype.boundaries = function() {
-  // let margin = 10;
-  // let desired = null;
-  // if (this.position.x < margin) {
-  //   desired = createVector(this.maxspeed, this.velocity.y);
-  // } else if (this.position.x > width - margin) {
-  //   desired = createVector(-this.maxspeed, this.velocity.y);
-  // }
+  let margin = 0;
+  let desired = null;
+  if (this.position.x < margin) {
+    desired = createVector(this.maxSpeed, this.velocity.y);
+  } else if (this.position.x > width - margin) {
+    desired = createVector(-this.maxSpeed, this.velocity.y);
+  }
 
-  // if (this.position.y < margin) {
-  //   desired = createVector(this.velocity.x, this.maxspeed);
-  // } else if (this.position.y > height - margin) {
-  //   desired = createVector(this.velocity.x, -this.maxspeed);
-  // }
+  if (this.position.y < margin) {
+    desired = createVector(this.velocity.x, this.maxSpeed);
+  } else if (this.position.y > height - margin) {
+    desired = createVector(this.velocity.x, -this.maxSpeed);
+  }
 
-  // if (desired !== null) {
-  //   desired.setMag(this.maxspeed);
-  //   let steer = p5.Vector.sub(desired, this.velocity);
-  //   // steer.limit(this.maxforce);
-  //   this.applyForce(steer);
-  // }
+  if (desired !== null) {
+    desired.setMag(this.maxspeed);
+    let steer = p5.Vector.sub(desired, this.velocity);
+    steer.limit(this.maxforce);
+    this.applyForce(steer);
+  }
 }
 

@@ -1,4 +1,4 @@
-let vehiclesNum = 20;
+let vehiclesNum = 100;
 let vehicles = [];
 
 let foodsNum = 200;
