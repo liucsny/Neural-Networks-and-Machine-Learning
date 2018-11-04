@@ -4,6 +4,9 @@ let flock;
 let foodsNum = 10;
 let foods = [];
 
+let flockNumChart;
+let foodsNumChart;
+
 function setup(){
   createCanvas(1200,600);
 
@@ -17,6 +20,8 @@ function setup(){
     foods.push(new Food())
   }
 
+  flockNumChart = new Chart(0, 600 - 150, width, 150);
+  foodsNumChart = new Chart(0, 600 - 150, width, 150, color(0, 255, 0));
 }
 
 function draw(){
@@ -35,6 +40,9 @@ function draw(){
   })
 
   flock.run(foods);
+
+  flockNumChart.display(flock.boids.length);
+  foodsNumChart.display(foods.length)
 
   // fill(color(255,255,255,100))
   // ellipse(mouseX, mouseY,100,100)
