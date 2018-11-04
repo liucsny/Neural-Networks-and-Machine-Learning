@@ -4,7 +4,7 @@ function Vehicle({x = random(0, width),
                   vy = random(-1 , 1), 
                   // size = random(1, 5), 
                   maxSpeed = 3, 
-                  maxForce = 0.5, 
+                  maxForce = 1, 
                   slowDownMargin = 30, 
                   scope = 300, 
                   slowDownSpeed = 1, 
@@ -12,7 +12,12 @@ function Vehicle({x = random(0, width),
                   walkAroundSpeed = 1,
                   initHealth = random(1, 5),
                   maxHealth = 10,
-                  healthDown = 0.01
+                  healthDown = 0.01,
+                  separateWeight = random(-2, 2),
+                  alignWeight = random(-2, 2),
+                  cohesionWeight = random(-0.2, 0.2),
+                  desiredSeparation = 25.0,
+                  neighbordist = 50.0,
                 } = {}){
   
   this.position = createVector(x, y);
@@ -29,6 +34,11 @@ function Vehicle({x = random(0, width),
   
   this.scope = scope;
   
+  // flock behavior params
+  this.desiredSeparation = desiredSeparation;
+  this.neighbordist = neighbordist;
+  this.desiredSeparation = desiredSeparation;
+  
   this.eatDist = eatDist;
 
   this.walkAroundSpeed = walkAroundSpeed;
@@ -36,6 +46,10 @@ function Vehicle({x = random(0, width),
   this.health = initHealth;
   this.healthDown = healthDown;
   this.maxHealth = maxHealth * sqrt(this.size);
+
+  this.separateWeight = separateWeight;
+  this.alignWeight = alignWeight;
+  this.cohesionWeight = cohesionWeight;
 
   this.velocity.setMag(this.maxspeed);
 
@@ -86,13 +100,12 @@ Vehicle.prototype.applyForce = function(force){
   // a = F/m
   // console.log(force.mag())
   force.div(this.size);
+  force.limit(this.maxForce);
   // console.log(force.mag())
   this.acceleration.add(force)
 }
 
-
-
-Vehicle.prototype.seek = function(target){
+Vehicle.prototype.seekForce = function(target){
   // desired = target - postion
   let desired = p5.Vector.sub(target, this.position);
   let maxDesired = desired.normalize().mult(this.maxSpeed)
@@ -110,10 +123,13 @@ Vehicle.prototype.seek = function(target){
     this.velocity.limit(max);
   }
 
-  // console.log(steering.mag())
-  
+  return steering
+}
 
-  this.applyForce(steering)
+Vehicle.prototype.seek = function(target){
+
+  let steering = this.seekForce(target);
+  this.applyForce(steering);
 }
 
 
@@ -154,17 +170,99 @@ Vehicle.prototype.walkAround = function(){
   let y = noise(((this.frame + this.noiseRands[1]) + this.noiseRands[2]) * 0.01) * 2 - 1;
 
   let desired = createVector(x,y);
-  desired = p5.Vector.add(desired, this.velocity * 4);
+  desired.add(this.velocity);
   desired.normalize();
   desired.mult(this.walkAroundSpeed);
 
   let steering = p5.Vector.sub(desired, this.velocity);
+  steering.limit(this.maxForce);
 
   this.applyForce(steering);
 }
 
-Vehicle.prototype.separate = function(){
+Vehicle.prototype.separate = function(vehicles){
+  let steerForce = createVector(0, 0);
+  let count = 0;
 
+  vehicles.forEach((vehicle,i)=>{
+    let d = p5.Vector.dist(this.position, vehicle.position);
+    if((d > 0) && (d < this.scope) && (d < this.desiredSeparation)){
+      let diff = p5.Vector.sub(this.position, vehicle.position);
+      diff.normalize();
+      diff.div(d);
+      steerForce.add(diff);
+      count++;
+    }
+  })
+
+  if (count > 0) {
+    steerForce.div(count);
+  }
+
+  steerForce.limit(this.maxforce);
+
+  return steerForce;
+}
+
+Vehicle.prototype.align = function(vehicles){
+  let sum = createVector(0, 0);
+  let count = 0;
+
+  vehicles.forEach((vehicle,i)=>{
+    let d = p5.Vector.dist(this.position, vehicle.position);
+    if((d > 0) && (d < this.scope) && (d < this.neighbordist)){
+      sum.add(vehicle.velocity);
+      count++;
+    }
+  })
+
+  if (count > 0) {
+    sum.div(count);
+    sum.normalize();
+    sum.mult(this.maxspeed);
+    let steerForce = p5.Vector.sub(sum, this.velocity);
+    steerForce.limit(this.maxforce);
+    return steerForce;
+  } else {
+    return createVector(0, 0);
+  }
+}
+
+Vehicle.prototype.cohesion = function(vehicles){
+  let sum = createVector(0, 0);
+  let count = 0;
+
+  vehicles.forEach((vehicle,i)=>{
+    let d = p5.Vector.dist(this.position, vehicle.position);
+    if((d > 0) && (d < this.scope) && (d < this.neighbordist)){
+      sum.add(vehicle.position); // Add location
+      count++;
+    }
+  })
+
+  if (count > 0) {
+    sum.div(count);
+    return this.seekForce(sum);
+  } else {
+    return createVector(0, 0);
+  }
+}
+
+
+Vehicle.prototype.flock = function(vehicles){
+  let separateForce = this.separate(vehicles); // Separation
+  let alignForce = this.align(vehicles); // Alignment
+  let cohesionForce = this.cohesion(vehicles); // Cohesion
+
+  // Arbitrarily weight these forces
+  separateForce.mult(this.separateWeight);
+  alignForce.mult(this.alignWeight);
+  cohesionForce.mult(this.cohesionWeight);
+
+  // Add the force vectors to acceleration
+  this.applyForce(separateForce);
+  this.applyForce(alignForce);
+  this.applyForce(cohesionForce);
 }
 
 Vehicle.prototype.isDead = function(){
@@ -174,7 +272,6 @@ Vehicle.prototype.isDead = function(){
     return false;
   }
 }
-
 
 Vehicle.prototype.boundaries = function() {
   let margin = 0;

@@ -1,13 +1,16 @@
-let vehiclesNum = 20;
-let vehicles = [];
+let flockNum = 200;
+let flock;
 
-let foodsNum = 200;
+let foodsNum = 100;
 let foods = [];
 
 function setup(){
   createCanvas(1200,600);
-  for (let i = 0; i < vehiclesNum; i++) {
-    vehicles.push(new Vehicle())
+
+  flock = new Flock();
+
+  for (let i = 0; i < flockNum; i++) {
+    flock.addBoid(new Vehicle())
   }
 
   for (let i = 0; i < foodsNum; i++) {
@@ -19,7 +22,7 @@ function setup(){
 function draw(){
   background(12);
 
-  let prob = map(sin(frameCount/500), -1, 1, 0.02, 0.06)
+  let prob = map(sin(frameCount/500), -1, 1, 0.04, 0.2)
 
 
   if(random() < prob){
@@ -30,23 +33,14 @@ function draw(){
     food.show();
   })
 
-  vehicles.forEach((vehicle, i)=>{
-    vehicle.update();
-    // vehicle.seek(createVector(mouseX, mouseY));
-    vehicle.eat(foods);
-    vehicle.display();
-
-    if(vehicle.isDead()){
-      vehicles.splice(i, 1)
-    }
-  })
+  flock.run();
 
   // fill(color(255,255,255,100))
   // ellipse(mouseX, mouseY,100,100)
   fill(255);
   noStroke();
   textSize(18);
-  text('当前生命数：' + vehicles.length, 10, 30)
+  text('当前生命数：' + flock.boids.length, 10, 30)
   text('当前食物数：' + foods.length, 10, 60)
-  text('当前生产概率：' + map(prob, 0, 0.06, 0, 100).toFixed(2) + '%', 10, 90)
+  text('当前生产概率：' + map(prob, 0, 0.2, 0, 100).toFixed(2) + '%', 10, 90)
 }
