@@ -10,6 +10,10 @@ function Vehicle({x = random(0, width), y = random(0, height), vx = random(-1 , 
   this.scope = scope;
   this.velocity.setMag(this.maxspeed);
 
+  this.noiseRands = [random(-3000, 3000), random(-3000, 3000), random(-3000, 3000)]
+
+  this.frame = 0;
+
   this.dna = []
 }
 
@@ -38,6 +42,7 @@ Vehicle.prototype.update = function(){
   this.velocity.add(this.acceleration);
   this.position.add(this.velocity);
   this.acceleration.mult(0);
+  this.frame++;
 
   this.boundaries();
 }
@@ -97,11 +102,30 @@ Vehicle.prototype.eat = function(foods) {
       foods.splice(closetIndex, 1)
     } else if(closetIndex != -1) {
       this.seek(foods[closetIndex].position);
+    } else {
+      this.walkAround()
     }
+  } else {
+    this.walkAround()
   }
 }
 
+Vehicle.prototype.walkAround = function(){
+  let x = noise((this.frame + this.noiseRands[0]) * 0.01) * 2 - 1;
+  let y = noise(((this.frame + this.noiseRands[1]) + this.noiseRands[2]) * 0.01) * 2 - 1;
 
+  let desired = createVector(x,y)
+  desired.normalize();
+  desired.mult(this.maxSpeed / 2);
+
+  let steering = p5.Vector.sub(desired, this.velocity);
+
+  this.applyForce(steering);
+}
+
+Vehicle.prototype.separate = function(){
+
+}
 
 Vehicle.prototype.boundaries = function() {
   let margin = 0;
@@ -121,7 +145,7 @@ Vehicle.prototype.boundaries = function() {
   if (desired !== null) {
     desired.setMag(this.maxspeed);
     let steer = p5.Vector.sub(desired, this.velocity);
-    steer.limit(this.maxforce);
+    steer.limit(this.maxforce * 2);
     this.applyForce(steer);
   }
 }
