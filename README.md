@@ -16,7 +16,9 @@ A Personal practice project for learning [Neural Networks and Machine Learning](
 ## Session 2 - Genetic Algorithms
 - Finding Phrase Genetic Algorithm
 - Weighted Random Select
-- Evolutionary Steering Behaviors
+- Steering Behavior
+- Flocking Behavior
+- Evolutionary Steering Behaviors 
 
 ## Local Serving
 ``` bash
