@@ -52,7 +52,6 @@ function Vehicle({x = random(0, width),
   // flock behavior params
   this.desiredSeparation = desiredSeparation;
   this.neighbordist = neighbordist;
-  this.desiredSeparation = desiredSeparation;
 
   this.separateWeight = separateWeight;
   this.alignWeight = alignWeight;
@@ -66,6 +65,7 @@ function Vehicle({x = random(0, width),
   this.eatFoodRadius = eatFoodRadius;
   this.eatPoisonRadius = eatPoisonRadius;
 
+  // reproduction params
   this.birthRate = birthRate;
   this.birthHealth = birthHealth;
 

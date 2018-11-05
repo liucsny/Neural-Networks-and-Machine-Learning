@@ -18,7 +18,7 @@ A Personal practice project for learning [Neural Networks and Machine Learning](
 - Weighted Random Select
 - Steering Behavior
 - Flocking Behavior
-- Evolutionary Steering Behaviors 
+- Evolutionary Steering Behaviors
 
 ## Local Serving
 ``` bash
