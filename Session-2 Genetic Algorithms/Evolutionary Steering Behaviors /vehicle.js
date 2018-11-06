@@ -9,7 +9,7 @@ function Vehicle({x = random(0, width),
                   scope = random(20, 100),
                   slowDownSpeed = 1, 
                   eatFoodRadius = 2,
-                  eatPoisonRadius = 2,
+                  eatPoisonRadius = random(4, 12),
                   walkAroundSpeed = 1,
                   initHealth = 3,
                   maxHealth = 100,
@@ -19,8 +19,8 @@ function Vehicle({x = random(0, width),
                   cohesionWeight = random(-0.2, 0.2),
                   desiredSeparation = 25.0,
                   neighbordist = 50.0,
-                  foodDistWeight = 1,
-                  foodNutritionWeight = 1,
+                  foodDistWeight = random(0, 1),
+                  foodNutritionWeight = random(0, 1),
                   birthRate = 0.05,
                   birthHealth = random(3, 10)
                   // birthRate = 0
@@ -57,7 +57,7 @@ function Vehicle({x = random(0, width),
   this.alignWeight = alignWeight;
   this.cohesionWeight = cohesionWeight;
 
-  // food seek params
+  // food preference params
   this.foodDistWeight = foodDistWeight;
   this.foodNutritionWeight = foodNutritionWeight;
   
@@ -103,6 +103,9 @@ Vehicle.prototype.display = function(){
   endShape(CLOSE);
   fill(255, 255, 255, 10)
   ellipse(0, 0, this.scope * 2)
+
+  stroke(255, 0, 0)
+  ellipse(0, 0, this.eatPoisonRadius * 2)
   pop();
 
   // textSize(12);
@@ -164,34 +167,84 @@ Vehicle.prototype.seek = function(target){
 
 
 Vehicle.prototype.eat = function(foods) {
-  let minDist = Infinity;
-  let closetIndex = -1;
+  let highestScore = -Infinity;
+  // let minDist = Infinity;
+  let bestIndex = -1;
 
   foods.forEach((food, i) => {
     let currentDist = p5.Vector.dist(this.position, food.position);
-    if(currentDist < minDist){
-      minDist = currentDist;
-      closetIndex = i
-    }
-  })
-
-  if(minDist < this.scope){
-    if(minDist < this.eatFoodRadius){
-      this.health += foods[closetIndex].nutrition
-      this.size += foods[closetIndex].nutrition
+    if(currentDist < this.eatPoisonRadius){
+      this.health += food.nutrition;
+      this.size += food.nutrition;
       if(this.health > this.maxHealth){
         this.health = this.maxHealth
         this.size = this.maxHealth
       }
-      foods.splice(closetIndex, 1)
-    } else if(closetIndex != -1) {
-      this.seek(foods[closetIndex].position);
+      foods.splice(i, 1)
+    }
+  })
+
+  foods.forEach((food, i) => {
+    let currentDist = p5.Vector.dist(this.position, food.position);
+    if(food.nutrition > 0){
+      let currentScore = map(currentDist, this.scope, 0, 0 ,5) * this.foodDistWeight + food.nutrition * this.foodNutritionWeight;
+      if(currentDist < this.scope){
+        if(currentScore > highestScore){
+          highestScore = currentScore;
+          bestIndex = i
+        }
+      }
+    }
+  })
+
+
+  if(bestIndex != -1){
+    let distToBestFood
+    try {
+      distToBestFood = p5.Vector.dist(this.position, foods[bestIndex].position);
+    }
+    catch(err) {
+      console.log(bestIndex)
+      console.log(foods.length)
+      console.log(foods[bestIndex])
+      console.log(err.message)
+    }
+    if(distToBestFood < this.eatFoodRadius){
+      this.health += foods[bestIndex].nutrition;
+      this.size += foods[bestIndex].nutrition;
+      if(this.health > this.maxHealth){
+        this.health = this.maxHealth
+        this.size = this.maxHealth
+      }
+      foods.splice(bestIndex, 1)
     } else {
-      this.walkAround()
+      this.seek(foods[bestIndex].position);
     }
   } else {
     this.walkAround()
   }
+
+  // Vehicle.prototype.eat = function(){
+
+  // }
+
+  // if(minDist < this.scope){
+  //   if(minDist < this.eatFoodRadius){
+  //     this.health += foods[bestIndex].nutrition
+  //     this.size += foods[bestIndex].nutrition
+  //     if(this.health > this.maxHealth){
+  //       this.health = this.maxHealth
+  //       this.size = this.maxHealth
+  //     }
+  //     foods.splice(bestIndex, 1)
+  //   } else if(bestIndex != -1) {
+  //     this.seek(foods[bestIndex].position);
+  //   } else {
+  //     this.walkAround()
+  //   }
+  // } else {
+  //   this.walkAround()
+  // }
 }
 
 Vehicle.prototype.walkAround = function(){

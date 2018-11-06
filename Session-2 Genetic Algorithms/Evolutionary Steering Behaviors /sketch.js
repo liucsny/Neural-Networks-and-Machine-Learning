@@ -1,4 +1,4 @@
-let flockNum = 2;
+let flockNum = 4;
 let flock;
 
 let foodsNum = 10;
@@ -13,7 +13,7 @@ function setup(){
   flock = new Flock();
 
   for (let i = 0; i < flockNum; i++) {
-    flock.addBoid(new Vehicle())
+    flock.addBoid(new Vehicle({initHealth: 6}))
   }
 
   for (let i = 0; i < foodsNum; i++) {
@@ -27,7 +27,7 @@ function setup(){
 function draw(){
   background(12);
 
-  let prob = map(foods.length, 0, 100, 0.02, 0.2)
+  let prob = map(foods.filter(food => food.nutrition > 0).length, 0, 100, 0.02, 0.2)
   // let prob = map(sin(frameCount/500), -1, 1, 0.04, 0.1)
   // let prob = 0.2
 

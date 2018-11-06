@@ -1,6 +1,6 @@
 function Food({x = random(0, width), y = random(0, height)} = {}){
   this.position = createVector(x, y);
-  this.nutrition = random(0, 5);
+  this.nutrition = random(-3, 6);
 }
 
 Food.prototype.show = function(){
@@ -11,6 +11,6 @@ Food.prototype.show = function(){
     ellipse(this.position.x, this.position.y, sqrt(abs(this.nutrition) * 4))
   } else {
     fill(color(255, 0, 0))
-    ellipse(this.position.x, this.position.y, sqrt(abs(this.nutrition) * 4))
+    ellipse(this.position.x, this.position.y, sqrt(abs(this.nutrition) * 8))
   }
 }
