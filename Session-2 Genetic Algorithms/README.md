@@ -75,11 +75,11 @@ There is a **Chart** Constructor that can create chart object to monitor the sys
 By default, there are two chart objects montoring the amount of foods and vehicles, which are represented as green line chart and white line chart respectively.
 
 ## Todos
-- [ ] Give different vehicle different preference between food nutrition and food distance when predation
+- [x] Give different vehicle different preference between food nutrition and food distance when predation
 - [ ] Features determined by DNA
 - [ ] Child inherits DNA from Predecessor
 - [ ] Add variation to DNA when reproduction
-- [ ] Add poisions (negative nutrition foods) to the system and make vehicles to avoid them
+- [x] Add poisions (negative nutrition foods) to the system and make vehicles to avoid them
 - [ ] Add food depending on the amount of foods in a particular area
 - [ ] Add predators that feed on vehicles and make vehicles to avoid them
 

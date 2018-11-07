@@ -1,34 +1,33 @@
-function Vehicle({
-  x = random(0, width), 
-  y = random(0, height), 
-  vx = random(-1 , 1), 
-  vy = random(-1 , 1), 
-  // size = random(1, 5), 
-  maxSpeed = 3, 
-  maxForce = 1, 
-  slowDownMargin = 30, 
-  scope = random(20, 100),
-  slowDownSpeed = 1, 
-  eatFoodRadius = 2,
-  eatPoisonRadius = random(4, 12),
-  walkAroundSpeed = 1,
-  initHealth = 3,
-  maxHealth = 100,
-  healthDown = 0.01,
-  separateWeight = random(-1, 3),
-  alignWeight = random(-1, 3),
-  cohesionWeight = random(-0.2, 0.2),
-  desiredSeparation = 25.0,
-  neighbordist = 50.0,
-  foodDistWeight = random(0, 1),
-  foodNutritionWeight = random(0, 1),
-  birthRate = 0.05,
-  birthHealth = random(3, 10),
-  eatFoodPreference = 1,
-  eatPoisonPreference = random(-1,0),
-  avoidPoisonRadius = eatPoisonRadius + random(5, 50),
-  dna = {}
-} = {}){
+function Vehicle({x = random(0, width), 
+                  y = random(0, height), 
+                  vx = random(-1 , 1), 
+                  vy = random(-1 , 1), 
+                  // size = random(1, 5), 
+                  maxSpeed = 3, 
+                  maxForce = 1, 
+                  slowDownMargin = 30, 
+                  scope = random(20, 100),
+                  slowDownSpeed = 1, 
+                  eatFoodRadius = 2,
+                  eatPoisonRadius = random(4, 12),
+                  walkAroundSpeed = 1,
+                  initHealth = 3,
+                  maxHealth = 100,
+                  healthDown = 0.01,
+                  separateWeight = random(-1, 3),
+                  alignWeight = random(-1, 3),
+                  cohesionWeight = random(-0.2, 0.2),
+                  desiredSeparation = 25.0,
+                  neighbordist = 50.0,
+                  foodDistWeight = random(0, 1),
+                  foodNutritionWeight = random(0, 1),
+                  birthRate = 0.05,
+                  birthHealth = random(3, 10),
+                  eatFoodPreference = 1,
+                  eatPoisonPreference = random(-1,0),
+                  avoidPoisonRadius = eatPoisonRadius + random(5, 50),
+                  dna = {}
+                } = {}){
 
 
   this.dna = dna
@@ -81,46 +80,46 @@ function Vehicle({
   // this.avoidPoisonRadius = this.dna.avoidPoisonRadius
 
   // running ability params
-  !!this.dna.maxSpeed ? this.maxSpeed = this.dna.maxSpeed : this.maxSpeed = maxSpeed;
-  !!this.dna.maxForce? this.maxForce = this.dna.maxForce : this.maxForce = maxForce;
+  this.maxSpeed = maxSpeed;
+  this.maxForce = maxForce;
 
-  !!this.dna.walkAroundSpeed? this.walkAroundSpeed = !this.dna.walkAroundSpeed : this.walkAroundSpeed = walkAroundSpeed;
+  this.walkAroundSpeed = walkAroundSpeed;
 
-  !!this.dna.slowDownMargin? this.slowDownMargin = this.dna.slowDownMargin : this.slowDownMargin = slowDownMargin;
-  !!this.dna.slowDownSpeed? this.slowDownSpeed = this.dna.slowDownSpeed : this.slowDownSpeed = slowDownSpeed;
+  this.slowDownMargin = slowDownMargin;
+  this.slowDownSpeed = slowDownSpeed;
 
   // health params
-  !!this.dna.initHealth? this.size = this.dna.initHealth : this.size = initHealth;
-  !!this.dna.initHealth? this.health = this.dna.initHealth : this.health = initHealth;
-  !!this.dna.healthDown? this.healthDown = this.dna.healthDown : this.healthDown = healthDown;
-  !!this.dna.maxHealth? this.maxHealth = this.dna.maxHealth * sqrt(this.size) : this.maxHealth = maxHealth * sqrt(this.size);
+  this.size = initHealth;
+  this.health = initHealth;
+  this.healthDown = healthDown;
+  this.maxHealth = maxHealth * sqrt(this.size);
   
   // vision params
-  !!this.dna.scope? this.scope = this.dna.scope : this.scope = scope;
+  this.scope = scope;
   
   // flock behavior params
-  !!this.dna.desiredSeparation? this.desiredSeparation = this.dna.desiredSeparation : this.desiredSeparation = desiredSeparation;
-  !!this.dna.neighbordist? this.neighbordist = this.dna.neighbordist : this.neighbordist = neighbordist;
+  this.desiredSeparation = desiredSeparation;
+  this.neighbordist = neighbordist;
 
-  !!this.dna.separateWeight? this.separateWeight = this.dna.separateWeight : this.separateWeight = separateWeight;
-  !!this.dna.alignWeight? this.alignWeight = this.dna.alignWeight : this.alignWeight = alignWeight;
-  !!this.dna.cohesionWeight? this.cohesionWeight = this.dna.cohesionWeight : this.cohesionWeight = cohesionWeight;
+  this.separateWeight = separateWeight;
+  this.alignWeight = alignWeight;
+  this.cohesionWeight = cohesionWeight;
 
   // food preference params
-  !!this.dna.foodDistWeight? this.foodDistWeight = this.dna.foodDistWeight : this.foodDistWeight = foodDistWeight;
-  !!this.dna.foodNutritionWeight? this.foodNutritionWeight = this.dna.foodNutritionWeight : this.foodNutritionWeight = foodNutritionWeight;
+  this.foodDistWeight = foodDistWeight;
+  this.foodNutritionWeight = foodNutritionWeight;
   
   // predation radius params
-  !!this.dna.eatFoodRadius? this.eatFoodRadius = this.dna.eatFoodRadius : this.eatFoodRadius = eatFoodRadius;
-  !!this.dna.eatPoisonRadius? this.eatPoisonRadius = this.dna.eatPoisonRadius : this.eatPoisonRadius = eatPoisonRadius;
+  this.eatFoodRadius = eatFoodRadius;
+  this.eatPoisonRadius = eatPoisonRadius;
 
   // reproduction params
-  !!this.dna.birthRate? this.birthRate = this.dna.birthRate : this.birthRate = birthRate;
-  !!this.dna.birthHealth? this.birthHealth = this.dna.birthHealth : this.birthHealth = birthHealth;
+  this.birthRate = birthRate;
+  this.birthHealth = birthHealth;
 
-  !!this.dna.eatFoodPreference? this.eatFoodPreference = this.dna.eatFoodPreference : this.eatFoodPreference = eatFoodPreference;
-  !!this.dna.eatPoisonPreference? this.eatPoisonPreference = this.dna.eatPoisonPreference : this.eatPoisonPreference = eatPoisonPreference;
-  !!this.dna.avoidPoisonRadius? this.avoidPoisonRadius = this.dna.avoidPoisonRadius : this.avoidPoisonRadius = avoidPoisonRadius;
+  this.eatFoodPreference = eatFoodPreference,
+  this.eatPoisonPreference = eatPoisonPreference,
+  this.avoidPoisonRadius = avoidPoisonRadius
 
   // init value
   this.noiseRands = [random(-3000, 3000), random(-3000, 3000), random(-3000, 3000)]
@@ -462,14 +461,14 @@ Vehicle.prototype.birth = function(flock) {
       // Same location, same DNA
       this.health -= 3
       this.size -= 3
-      flock.addBoid(new Vehicle({x:this.position.x, y:this.position.y, dna: this.dna}));
+      flock.addBoid(new Vehicle({x:this.position.x, y:this.position.y}));
     }
   } else {
     if ((r < this.birthRate * 0) && (this.health > this.birthHealth)) {
       // Same location, same DNA
       this.health -= 3
       this.size -= 3
-      flock.addBoid(new Vehicle({x:this.position.x, y:this.position.y, dna: this.dna}));
+      flock.addBoid(new Vehicle({x:this.position.x, y:this.position.y}));
     }
   }
 

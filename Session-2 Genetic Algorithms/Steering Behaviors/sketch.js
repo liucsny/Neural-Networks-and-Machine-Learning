@@ -1,7 +1,7 @@
-let flockNum = 8;
+let flockNum = 1;
 let flock;
 
-let foodsNum = 40;
+let foodsNum = 10;
 let foods = [];
 
 let flockNumChart;
@@ -13,31 +13,7 @@ function setup(){
   flock = new Flock();
 
   for (let i = 0; i < flockNum; i++) {
-    flock.addBoid(new Vehicle({dna: {
-      maxSpeed: 3, 
-      maxForce: 1, 
-      slowDownMargin: 30, 
-      scope: random(20, 100),
-      slowDownSpeed: 1, 
-      eatFoodRadius: 2,
-      eatPoisonRadius: random(4, 12),
-      walkAroundSpeed: 1,
-      initHealth: 3,
-      maxHealth: 100,
-      healthDown: 0.01,
-      separateWeight: random(-1, 3),
-      alignWeight: random(-1, 3),
-      cohesionWeight: random(-0.2, 0.2),
-      desiredSeparation: 25.0,
-      neighbordist: 50.0,
-      foodDistWeight: random(0, 1),
-      foodNutritionWeight: random(0, 1),
-      birthRate: 0.05,
-      birthHealth: random(3, 10),
-      eatFoodPreference: 1,
-      eatPoisonPreference: random(-1,0),
-      avoidPoisonRadius: random(4, 12) + random(5, 50)
-    }}))
+    flock.addBoid(new Vehicle({initHealth: 6}))
   }
 
   for (let i = 0; i < foodsNum; i++) {
@@ -83,31 +59,7 @@ function draw(){
 }
 
 function mouseClicked() {
-  flock.addBoid(new Vehicle({x: mouseX, y: mouseY, dna: {
-    maxSpeed: 3, 
-    maxForce: 1, 
-    slowDownMargin: 30, 
-    scope: random(20, 100),
-    slowDownSpeed: 1, 
-    eatFoodRadius: 2,
-    eatPoisonRadius: random(4, 12),
-    walkAroundSpeed: 1,
-    initHealth: 3,
-    maxHealth: 100,
-    healthDown: 0.01,
-    separateWeight: random(-1, 3),
-    alignWeight: random(-1, 3),
-    cohesionWeight: random(-0.2, 0.2),
-    desiredSeparation: 25.0,
-    neighbordist: 50.0,
-    foodDistWeight: random(0, 1),
-    foodNutritionWeight: random(0, 1),
-    birthRate: 0.05,
-    birthHealth: random(3, 10),
-    eatFoodPreference: 1,
-    eatPoisonPreference: random(-1,0),
-    avoidPoisonRadius: random(4, 12) + random(5, 50)
-  }}))
+  flock.addBoid(new Vehicle({x: mouseX, y: mouseY}))
   return false;
 }
 
