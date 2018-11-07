@@ -17,7 +17,7 @@ function setup(){
   }
 
   for (let i = 0; i < foodsNum; i++) {
-    foods.push(new Food())
+    foods.push(new Food({nutrition: random(0,10)}))
   }
 
   flockNumChart = new Chart(0, 600 - 150, width, 150, color(255, 255, 255));
@@ -53,12 +53,12 @@ function draw(){
   noStroke();
   textSize(18);
   text('当前生命数：' + flock.boids.length, 10, 30)
-  text('当前食物数：' + foods.length, 10, 60)
-  text('当前生产概率：' + map(prob, 0, 0.2, 0, 100).toFixed(2) + '%', 10, 90)
+  text('当前食物数：' + foods.filter(food => food.nutrition > 0).length, 10, 60)
+  text('当前毒物数：' + foods.filter(food => food.nutrition < 0).length, 10, 90)
+  text('当前生产概率：' + map(prob, 0, 0.2, 0, 100).toFixed(2) + '%', 10, 120)
 }
 
 function mouseClicked() {
-  flock.addBoid(new Vehicle({x: mouseX, y: mouseY, initHealth: 6}))
-
+  flock.addBoid(new Vehicle({x: mouseX, y: mouseY}))
   return false;
 }

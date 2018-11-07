@@ -1,6 +1,6 @@
-function Food({x = random(0, width), y = random(0, height)} = {}){
+function Food({x = random(0, width), y = random(0, height), nutrition = random(-3, 6)} = {}){
   this.position = createVector(x, y);
-  this.nutrition = random(-3, 6);
+  this.nutrition = nutrition;
 }
 
 Food.prototype.show = function(){

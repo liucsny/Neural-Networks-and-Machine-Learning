@@ -5,7 +5,7 @@ function Flock(){
 Flock.prototype.run = function(foods){
   this.boids.forEach((vehicle, i) => {
     vehicle.update();
-    vehicle.eat(foods);
+    vehicle.behaviors(foods);
     vehicle.flock(this.boids);
     vehicle.birth(this);
     vehicle.display();
