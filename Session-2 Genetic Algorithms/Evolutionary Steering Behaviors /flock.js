@@ -11,7 +11,9 @@ Flock.prototype.run = function(foods){
     vehicle.birth(this);
     vehicle.display();
     if(vehicle.isDead()){
-      foods.push(new Food({x: vehicle.position.x, y: vehicle.position.y, health: random(3, 5)}))
+      if(random(0,1) < 0.5){
+        foods.push(new Food({x: vehicle.position.x, y: vehicle.position.y, health: random(3, 5)}))
+      }
       // console.log(foods)
       this.boids.splice(i, 1)
     }

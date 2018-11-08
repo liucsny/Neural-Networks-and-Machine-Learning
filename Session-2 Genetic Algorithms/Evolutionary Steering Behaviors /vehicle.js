@@ -181,15 +181,55 @@ function isNumber(n) {
 }
 
 Vehicle.prototype.mutation = function(){
-  let mutationRate = 0.1;
+  let mutationRate = 0.01;
+  let rand = random(0,1)
   for (const key in this.dna) {
     // console.log('dna')
     // if((random(0,1) < mutationRate) && (this.dna[key] instanceof Number) && (this.dna.hasOwnProperty(key))){
       // console.log(this.dna[key])
-    if((random(0,1) < mutationRate) && isNumber(this.dna[key]) && (this.dna.hasOwnProperty(key))){
-      this.dna[key] * random(0.95, 1.05);
-      this.dna.strokeColor = color(random(30, 255),random(30, 255),random(30, 255));
-      console.log('Mutation!')
+    if((rand < mutationRate) && isNumber(this.dna[key]) && (this.dna.hasOwnProperty(key))){
+
+      if(rand < mutationRate * 0.4){
+
+        random(0,1) < 0.5 ? this.dna[key] * 0.9 : this.dna[key] * 1.1;
+
+
+        let r = this.dna.strokeColor.levels[0];
+        let g = this.dna.strokeColor.levels[1];
+        let b = this.dna.strokeColor.levels[2];
+        
+        random(0,1) < 0.5 ? r *= 0.8 : r *= 1.2;
+        random(0,1) < 0.5 ? g *= 0.8 : g *= 1.2;
+        random(0,1) < 0.5 ? b *= 0.8 : b *= 1.2;
+
+  
+        r > 255 ? r = 255:
+        g > 255 ? g = 255:
+        b > 255 ? b = 255:
+  
+        r < 30 ? r = 30:
+        g < 30 ? g = 30:
+        b < 30 ? b = 30:
+  
+        this.dna.strokeColor = color(r,g,b);
+      } else { 
+        this.dna[key] * random(0.95, 1.05);
+        let r = this.dna.strokeColor.levels[0] * random(0.8, 1.2);
+        let g = this.dna.strokeColor.levels[1] * random(0.8, 1.2);
+        let b = this.dna.strokeColor.levels[2] * random(0.8, 1.2);
+  
+        r > 255 ? r = 255:
+        g > 255 ? g = 255:
+        b > 255 ? b = 255:
+  
+        r < 30 ? r = 30:
+        g < 30 ? g = 30:
+        b < 30 ? b = 30:
+  
+  
+        this.dna.strokeColor = color(r,g,b);
+      }
+      // console.log('Mutation!')
     }
   }
 }

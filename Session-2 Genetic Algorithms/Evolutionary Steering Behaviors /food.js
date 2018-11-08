@@ -1,4 +1,4 @@
-function Food({x = random(0, width), y = random(0, height), health = random(-5, 6)} = {}){
+function Food({x = random(0, width), y = random(0, height), health = random(-2, 6)} = {}){
   this.position = createVector(x, y);
   this.health = health;
 }
