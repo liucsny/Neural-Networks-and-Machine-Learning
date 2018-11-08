@@ -22,11 +22,12 @@ function Vehicle({
   neighbordist = 50.0,
   foodDistWeight = random(0, 1),
   foodNutritionWeight = random(0, 1),
-  birthRate = 0.05,
+  birthRate = 0.03,
   birthHealth = random(3, 10),
   eatFoodPreference = 1,
   eatPoisonPreference = random(-1,0),
   avoidPoisonRadius = eatPoisonRadius + random(5, 50),
+  strokeColor = color(random(0, 255),random(0, 255),random(0, 255)),
   dna = {}
 } = {}){
 
@@ -122,6 +123,9 @@ function Vehicle({
   !!this.dna.eatPoisonPreference? this.eatPoisonPreference = this.dna.eatPoisonPreference : this.eatPoisonPreference = eatPoisonPreference;
   !!this.dna.avoidPoisonRadius? this.avoidPoisonRadius = this.dna.avoidPoisonRadius : this.avoidPoisonRadius = avoidPoisonRadius;
 
+
+  !!this.dna.strokeColor? this.strokeColor = this.dna.strokeColor : this.strokeColor = strokeColor;
+
   // init value
   this.noiseRands = [random(-3000, 3000), random(-3000, 3000), random(-3000, 3000)]
   this.initFrame = frameCount;
@@ -138,33 +142,56 @@ Vehicle.prototype.display = function(){
 
   push();
   translate(this.position.x, this.position.y);
-  noFill();
-  ellipse(0, 0, this.scope * 2)
+  // noFill();
+  // ellipse(0, 0, this.scope * 2)
   rotate(theta);
-  fill(color(255, 255, 255, opacity));
+  stroke(this.strokeColor);
+  strokeWeight(2);
+  fill(color(this.strokeColor.levels[0], this.strokeColor.levels[1], this.strokeColor.levels[2], opacity));
   // strokeWeight(1);
   // stroke(255);
-  noStroke();
+  // noStroke();
   beginShape();
-  vertex(0, -sqrt(this.size + 2) * 2);
+  vertex(0, -sqrt(this.size + 4) * 2);
   // console.log(this.size)
   vertex(-sqrt(this.size + 2), sqrt(this.size + 2) * 2);
   vertex(sqrt(this.size + 2), sqrt(this.size + 2) * 2);
   endShape(CLOSE);
-  fill(255, 255, 255, 10);
-  stroke(255, 255, 255, 30);
-  ellipse(0, 0, this.scope * 2);
 
-  stroke(255, 0, 0);
-  ellipse(0, 0, this.eatPoisonRadius * 2);
+  // fill(255, 255, 255, 10);
+  // stroke(255, 255, 255, 30);
+  // ellipse(0, 0, this.scope * 2);
 
-  stroke(255, 0, 0, 100);
-  ellipse(0, 0, this.avoidPoisonRadius * 2);
+  // stroke(255, 0, 0);
+  // ellipse(0, 0, this.eatPoisonRadius * 2);
+
+  // stroke(255, 0, 0, 100);
+  // fill(255, 255, 255, 5)
+  // ellipse(0, 0, this.avoidPoisonRadius * 2);
+
   pop();
 
   // textSize(12);
   // fill(255);
   // text(this.count, this.position.x, this.position.y)
+}
+
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+Vehicle.prototype.mutation = function(){
+  let mutationRate = 0.1;
+  for (const key in this.dna) {
+    // console.log('dna')
+    // if((random(0,1) < mutationRate) && (this.dna[key] instanceof Number) && (this.dna.hasOwnProperty(key))){
+      // console.log(this.dna[key])
+    if((random(0,1) < mutationRate) && isNumber(this.dna[key]) && (this.dna.hasOwnProperty(key))){
+      this.dna[key] * random(0.95, 1.05);
+      this.dna.strokeColor = color(random(30, 255),random(30, 255),random(30, 255));
+      console.log('Mutation!')
+    }
+  }
 }
 
 Vehicle.prototype.update = function(){
@@ -233,8 +260,8 @@ Vehicle.prototype.eat = function(foods) {
   foods.forEach((food, i) => {
     let currentDist = p5.Vector.dist(this.position, food.position);
     if(currentDist < this.eatPoisonRadius){
-      this.health += food.nutrition;
-      this.size += food.nutrition;
+      this.health += food.health;
+      this.size += food.health;
       if(this.health > this.maxHealth){
         this.health = this.maxHealth
         this.size = this.maxHealth
@@ -245,8 +272,8 @@ Vehicle.prototype.eat = function(foods) {
 
   foods.forEach((food, i) => {
     let currentDist = p5.Vector.dist(this.position, food.position);
-    if(food.nutrition > 0){
-      let currentScore = map(currentDist, this.scope, 0, 0 ,5) * this.foodDistWeight + food.nutrition * this.foodNutritionWeight;
+    if(food.health > 0){
+      let currentScore = map(currentDist, this.scope, 0, 0 ,5) * this.foodDistWeight + food.health * this.foodNutritionWeight;
       if(currentDist < this.scope){
         if(currentScore > highestScore){
           highestScore = currentScore;
@@ -269,8 +296,8 @@ Vehicle.prototype.eat = function(foods) {
       console.log(err.message)
     }
     if(distToBestFood < this.eatFoodRadius){
-      this.health += foods[bestFoodIndex].nutrition;
-      this.size += foods[bestFoodIndex].nutrition;
+      this.health += foods[bestFoodIndex].health;
+      this.size += foods[bestFoodIndex].health;
       if(this.health > this.maxHealth){
         this.health = this.maxHealth
         this.size = this.maxHealth
@@ -286,16 +313,31 @@ Vehicle.prototype.eat = function(foods) {
 
 Vehicle.prototype.behaviors = function(foods) {
   let highestScore = -Infinity;
-  let bestFoodIndex = -1;
+  let bestFood = null;
   let minDistPoison = Infinity;
-  let closetPoisonIndex = -1;
+  let closetPoison = null;
+
 
   foods.forEach((food, i) => {
     let currentDist = p5.Vector.dist(this.position, food.position);
-    if(food.nutrition < 0){
+
+    if(currentDist < this.scope){
+      if(food.health > 0){
+        let currentScore = map(currentDist, this.scope, 0, 0 ,5) * this.foodDistWeight + food.health * this.foodNutritionWeight;
+        if(currentScore > highestScore){
+          highestScore = currentScore;
+          bestFood = food
+        }
+      } else if((currentDist < minDistPoison) && (currentDist < this.avoidPoisonRadius)) {
+        minDistPoison = currentDist
+        closetPoisonIndex = i
+      }
+    }
+
+    if(food.health < 0){
       if(currentDist < this.eatPoisonRadius){
-        this.health += food.nutrition;
-        this.size += food.nutrition;
+        this.health += food.health;
+        this.size += food.health;
         if(this.health > this.maxHealth){
           this.health = this.maxHealth
           this.size = this.maxHealth
@@ -304,8 +346,8 @@ Vehicle.prototype.behaviors = function(foods) {
       }
     } else {
       if(currentDist < this.eatFoodRadius){
-        this.health += food.nutrition;
-        this.size += food.nutrition;
+        this.health += food.health;
+        this.size += food.health;
         if(this.health > this.maxHealth){
           this.health = this.maxHealth
           this.size = this.maxHealth
@@ -315,31 +357,15 @@ Vehicle.prototype.behaviors = function(foods) {
     }
   })
 
-  foods.forEach((food, i) => {
-    let currentDist = p5.Vector.dist(this.position, food.position);
-    if(currentDist < this.scope){
-      if(food.nutrition > 0){
-        let currentScore = map(currentDist, this.scope, 0, 0 ,5) * this.foodDistWeight + food.nutrition * this.foodNutritionWeight;
-        if(currentScore > highestScore){
-          highestScore = currentScore;
-          bestFoodIndex = i
-        }
-      } else if((currentDist < minDistPoison) && (currentDist < this.avoidPoisonRadius)) {
-        minDistPoison = currentDist
-        closetPoisonIndex = i
-      }
-    }
-  })
 
-
-  if((bestFoodIndex != -1)&&(closetPoisonIndex != -1)){
+  if((!!bestFood)&&(!!closetPoison)){
   // if((bestFoodIndex != -1)){
-    this.seek(foods[bestFoodIndex].position);
-    this.seek(foods[closetPoisonIndex].position, this.eatPoisonPreference);
-  } else if((bestFoodIndex != -1)&&(closetPoisonIndex == -1)){
-    this.seek(foods[bestFoodIndex].position);
-  } else if((bestFoodIndex == -1)&&(closetPoisonIndex != -1)){
-    this.seek(foods[closetPoisonIndex].position, this.eatPoisonPreference);
+    this.seek(bestFood.position);
+    this.seek(closetPoison.position, this.eatPoisonPreference);
+  } else if((!!bestFood)&&(!closetPoison)){
+    this.seek(bestFood.position);
+  } else if((!bestFood)&&(!!closetPoison)){
+    this.seek(closetPoison.position, this.eatPoisonPreference);
   } else {
     this.walkAround()
   }
@@ -460,16 +486,22 @@ Vehicle.prototype.birth = function(flock) {
   if(this.count <= 1){
     if ((r < this.birthRate) && (this.health > this.birthHealth)) {
       // Same location, same DNA
-      this.health -= 3
-      this.size -= 3
-      flock.addBoid(new Vehicle({x:this.position.x, y:this.position.y, dna: this.dna}));
+      this.health -= 4
+      this.size -= 4
+      let child = new Vehicle({x:this.position.x, y:this.position.y, dna: this.dna});
+      child.mutation();
+      flock.addBoid(child);
+      // console.log('Birth! - 1')
     }
   } else {
-    if ((r < this.birthRate * 0) && (this.health > this.birthHealth)) {
+    if ((r < this.birthRate * 0.01) && (this.health > this.birthHealth)) {
       // Same location, same DNA
-      this.health -= 3
-      this.size -= 3
-      flock.addBoid(new Vehicle({x:this.position.x, y:this.position.y, dna: this.dna}));
+      this.health -= 4
+      this.size -= 4
+      let child = new Vehicle({x:this.position.x, y:this.position.y, dna: this.dna});
+      child.mutation();
+      flock.addBoid(child);
+      // console.log('Birth! - 2')
     }
   }
 
@@ -478,6 +510,7 @@ Vehicle.prototype.birth = function(flock) {
 
 Vehicle.prototype.isDead = function(){
   if(this.health < 0){
+    // console.log('Dead!')
     return true;
   } else {
     return false;
