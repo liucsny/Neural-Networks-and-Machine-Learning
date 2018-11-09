@@ -9,8 +9,9 @@ let foods = [];
 
 let flockNumChart;
 let foodsNumChart;
-let maxAgeChart;
+// let maxAgeChart;
 let averageScopeChart;
+let averageSeparateWeightChart;
 
 function setup(){
   createCanvas(1200,600);
@@ -83,7 +84,7 @@ function setup(){
   flockNumChart = new Chart(0, 600 - 150, width, 150, color(255, 255, 255));
   foodsNumChart = new Chart(0, 600 - 150, width, 150, color(0, 255, 0));
   posionNumChart = new Chart(0, 600 - 150, width, 150, color(255, 0, 0));
-  maxAgeChart = new Chart(0, 600 - 150, width, 150, color('#007AFF'));
+  averageSeparateWeightChart = new Chart(0, 600 - 150, width, 150, color(255, 0, 255));
   averageScopeChart = new Chart(0, 600 - 150, width, 150, color(255, 255, 0));
 }
 
@@ -106,15 +107,15 @@ function draw(){
   flock.run(foods);
   // predatorFlock.run(flock.boids);
 
-  let maxAge = map(getMax(flock.boids, 'frameAge'), 0, 4000, 0, 100)
-  
+  let avSepWeight = getAverage(flock.boids, 'separateWeight')
+  let averageSeparateWeight = map(avSepWeight, -1, 3, 0, 100)
   let averageScope = map(getAverage(flock.boids, 'scope'), 0, 10, 0, 100)
 
 
   flockNumChart.display(flock.boids.length);
   foodsNumChart.display(foods.filter(food => food.health > 0).length)
   posionNumChart.display(foods.filter(food => food.health < 0).length)
-  maxAgeChart.display(maxAge)
+  averageSeparateWeightChart.display(averageSeparateWeight)
   
   averageScopeChart.display(getAverage(flock.boids, 'scope'))
 
@@ -127,7 +128,7 @@ function draw(){
   text('当前食物数：' + foods.filter(food => food.health > 0).length, 10, 60)
   text('当前毒物数：' + foods.filter(food => food.health < 0).length, 10, 90)
   text('当前生产概率：' + map(prob, 0, 0.2, 0, 100).toFixed(2) + '%', 10, 120)
-  text('当前最大年龄：' + maxAge.toFixed(2), 10, 150)
+  text('当前平均分离系数：' + avSepWeight.toFixed(2), 10, 150)
   text('当前平均视野：' + averageScope.toFixed(2), 10, 180)
   // noLoop();
 }

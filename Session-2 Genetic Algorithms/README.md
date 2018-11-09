@@ -5,6 +5,8 @@ An **Ecosystem Simulation** including:
   - Foods generation whose rate depends on the amount of foods themselives.
   - Interaction behaviors (Separate, Align, Cohesion) among the vehicles.
 
+Following [Intelligence-Learning](https://github.com/shiffman/NOC-S17-2-Intelligence-Learning/tree/master/week2-evolution) course from Daniel Shiffman.
+
 ## Vehicles Features (Parameters)
 ### Physics Parameters
 
