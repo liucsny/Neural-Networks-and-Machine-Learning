@@ -9,6 +9,8 @@ let foods = [];
 
 let flockNumChart;
 let foodsNumChart;
+let maxAgeChart;
+let averageScopeChart;
 
 function setup(){
   createCanvas(1200,600);
@@ -81,6 +83,8 @@ function setup(){
   flockNumChart = new Chart(0, 600 - 150, width, 150, color(255, 255, 255));
   foodsNumChart = new Chart(0, 600 - 150, width, 150, color(0, 255, 0));
   posionNumChart = new Chart(0, 600 - 150, width, 150, color(255, 0, 0));
+  maxAgeChart = new Chart(0, 600 - 150, width, 150, color('#007AFF'));
+  averageScopeChart = new Chart(0, 600 - 150, width, 150, color(255, 255, 0));
 }
 
 function draw(){
@@ -102,9 +106,17 @@ function draw(){
   flock.run(foods);
   // predatorFlock.run(flock.boids);
 
+  let maxAge = map(getMax(flock.boids, 'frameAge'), 0, 4000, 0, 100)
+  
+  let averageScope = map(getAverage(flock.boids, 'scope'), 0, 10, 0, 100)
+
+
   flockNumChart.display(flock.boids.length);
   foodsNumChart.display(foods.filter(food => food.health > 0).length)
   posionNumChart.display(foods.filter(food => food.health < 0).length)
+  maxAgeChart.display(maxAge)
+  
+  averageScopeChart.display(getAverage(flock.boids, 'scope'))
 
   // fill(color(255,255,255,100))
   // ellipse(mouseX, mouseY,100,100)
@@ -115,6 +127,8 @@ function draw(){
   text('当前食物数：' + foods.filter(food => food.health > 0).length, 10, 60)
   text('当前毒物数：' + foods.filter(food => food.health < 0).length, 10, 90)
   text('当前生产概率：' + map(prob, 0, 0.2, 0, 100).toFixed(2) + '%', 10, 120)
+  text('当前最大年龄：' + maxAge.toFixed(2), 10, 150)
+  text('当前平均视野：' + averageScope.toFixed(2), 10, 180)
   // noLoop();
 }
 
@@ -146,6 +160,33 @@ function mouseClicked() {
     strokeColor: color(random(30,255), random(30,255), random(30,255)),
   }}))
   return false;
+}
+
+function getMax(array, prop){
+  let max = 0;
+  array.forEach(e=>{
+    if(max < e[prop]) max = e[prop]
+  })
+
+  if(!!max){
+    return max
+  } else {
+    return 0
+  }
+}
+
+function getAverage(array, prop){
+  let sum = 0;
+  array.forEach(e=>{
+    sum += e[prop]
+  })
+
+  let average = sum/array.length
+  if(!!average){
+    return average
+  } else {
+    return 0
+  }
 }
 
 // function mouseClicked() {

@@ -20,6 +20,9 @@ A Personal practice project for learning [Neural Networks and Machine Learning](
 - Flocking Behavior
 - Evolutionary Steering Behaviors
 
+## Session 3 - Intro to Machine Learning
+
+
 ## Local Serving
 ``` bash
 npm install

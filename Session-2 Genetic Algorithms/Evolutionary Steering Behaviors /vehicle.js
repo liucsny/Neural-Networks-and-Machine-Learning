@@ -198,9 +198,9 @@ Vehicle.prototype.mutation = function(){
         let g = this.dna.strokeColor.levels[1];
         let b = this.dna.strokeColor.levels[2];
         
-        random(0,1) < 0.5 ? r *= 0.8 : r *= 1.2;
-        random(0,1) < 0.5 ? g *= 0.8 : g *= 1.2;
-        random(0,1) < 0.5 ? b *= 0.8 : b *= 1.2;
+        random(0,1) < 0.5 ? r *= 0.8 : r *= 1.25;
+        random(0,1) < 0.5 ? g *= 0.8 : g *= 1.25;
+        random(0,1) < 0.5 ? b *= 0.8 : b *= 1.25;
 
   
         r > 255 ? r = 255:
@@ -213,10 +213,10 @@ Vehicle.prototype.mutation = function(){
   
         this.dna.strokeColor = color(r,g,b);
       } else { 
-        this.dna[key] * random(0.95, 1.05);
-        let r = this.dna.strokeColor.levels[0] * random(0.8, 1.2);
-        let g = this.dna.strokeColor.levels[1] * random(0.8, 1.2);
-        let b = this.dna.strokeColor.levels[2] * random(0.8, 1.2);
+        this.dna[key] * random(0.95, 20/19);
+        let r = this.dna.strokeColor.levels[0] * random(0.8, 1.25);
+        let g = this.dna.strokeColor.levels[1] * random(0.8, 1.25);
+        let b = this.dna.strokeColor.levels[2] * random(0.8, 1.25);
   
         r > 255 ? r = 255:
         g > 255 ? g = 255:
