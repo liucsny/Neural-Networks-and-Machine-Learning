@@ -21,7 +21,7 @@ A Personal practice project for learning [Neural Networks and Machine Learning](
 - Evolutionary Steering Behaviors
 
 ## Session 3 - Intro to Machine Learning
-
+ - KNN Recommendation Engine
 
 ## Local Serving
 ``` bash
