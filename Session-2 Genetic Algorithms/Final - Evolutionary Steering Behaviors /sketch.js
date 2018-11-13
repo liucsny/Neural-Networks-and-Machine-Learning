@@ -89,7 +89,7 @@ function setup(){
 }
 
 function draw(){
-  background(40);
+  background(0);
 
   let prob = map(foods.filter(food => food.health > 0).length, 0, 100, 0.02, 0.18)
   // let prob = map(sin(frameCount/500), -1, 1, 0.04, 0.1)
