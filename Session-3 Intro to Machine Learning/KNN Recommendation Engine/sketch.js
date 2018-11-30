@@ -9,7 +9,7 @@ function preload() {
 function setup(){
   noCanvas();
 
-  let ratingScores = ['Not Seen', 1, 2, 3, 4, 5]
+  let ratingScores = ['Not Seen', 1, 2, 3, 4, 5];
 
   // let dropdown = createSelect();
   let btn = createButton('Submit').style('margin-top', '12px').style('width', '120px');
@@ -19,11 +19,11 @@ function setup(){
 
   let myRatings = {}
 
-  movies = Object.keys(data.users[0]).filter(e => (e != 'timestamp') && (e != 'name'))
+  movies = Object.keys(data.users[0]).filter(e => (e !== 'timestamp') && (e !== 'name'));
 
   movies.forEach(movie => {
     let containerDiv = createDiv().style('margin-top', '12px');
-    let movieNameDiv = createDiv(movie + ':').style('width', '80px').style('display', 'inline-block')
+    let movieNameDiv = createDiv(movie + ':').style('width', '80px').style('display', 'inline-block');
     let select = createSelect();
 
     ratingScores.forEach(e=>{
@@ -64,9 +64,9 @@ function setup(){
       
       let movieNameDiv = createDiv(e.title + ':' + ' ' + rating.toFixed(3)).style('width', '80px').style('display', 'inline-block')
 
-      containerDivs.push(containerDiv)
+      containerDivs.push(containerDiv);
 
-      containerDiv.child(movieNameDiv)
+      containerDiv.child(movieNameDiv);
       resultDiv.child(containerDiv)
     })
 
@@ -76,64 +76,63 @@ function setup(){
 
 function predictRating(nearestNeibhorsArray, movieTitleToPredict){
   let sum = 0;
-  let simulritySum = 0;
+  let similaritySum = 0;
   nearestNeibhorsArray.forEach(neibhor => {
-    sum += neibhor.detail[movieTitleToPredict] * neibhor.simulrity;
-    simulritySum += neibhor.simulrity;
-  })
+    sum += neibhor.detail[movieTitleToPredict] * neibhor.similarity;
+    similaritySum += neibhor.similarity;
+  });
 
-  return sum/simulritySum;
+  return sum/similaritySum;
 }
 
 function findNearestKNeibhors (userRatings, K){
 
-  let simulrityLargestK = []
+  let similarityLargestK = [];
 
   data.users.forEach(e=>{
-    let currentName = e.name
+    let currentName = e.name;
 
-    let currentsimulrity = eucldeanSimulrity(userRatings, e)
+    let currentsimilarity = eucldeanSimilarity(userRatings, e);
 
-    if(simulrityLargestK.length < K){
-      simulrityLargestK.push({
+    if(similarityLargestK.length < K){
+      similarityLargestK.push({
         name: currentName,
-        simulrity: currentsimulrity,
+        similarity: currentsimilarity,
         detail: e
       })
     } else {
-      for (let i = 0; i < simulrityLargestK.length; i++) {
-        if(simulrityLargestK[i].distance < currentsimulrity){
-          simulrityLargestK[i] = {
+      for (let i = 0; i < similarityLargestK.length; i++) {
+        if(similarityLargestK[i].distance < currentsimilarity){
+          similarityLargestK[i] = {
             name: currentName,
-            simulrity: currentsimulrity,
+            similarity: currentsimilarity,
             detail: e
           };
           break
         }
       }
     }
-  })
+  });
 
-  return simulrityLargestK
+  return similarityLargestK
 }
 
-function eucldeanSimulrity(ratings1, ratings2){
+function eucldeanSimilarity(ratings1, ratings2){
 
-  let titles = Object.keys(ratings1)
-  titles = titles.filter(e=> (e != 'timestamp') && (e != 'name'))
+  let titles = Object.keys(ratings1);
+  titles = titles.filter(e=> (e !== 'timestamp') && (e !== 'name'))
 
   let sumSquares = 0;
   titles.forEach(title => {
-    let rating1 = ratings1[title]
-    let rating2 = ratings2[title]
+    let rating1 = ratings1[title];
+    let rating2 = ratings2[title];
     if (rating1 != null && rating2 != null) {
-      var diff = rating1 - rating2;
+      let diff = rating1 - rating2;
       sumSquares += diff * diff;
     }
-  })
+  });
 
   let distance = sqrt(sumSquares);
-  let simulrity = 1 / (distance + 1);
 
-  return simulrity;
+  return 1 / (distance + 1);
 }

@@ -3,7 +3,7 @@ function Population(num, target){
   this.matingPool = [];
   this.maxLength;
   this.populationNum = num;
-  this.dnas = []
+  this.dnas = [];
   this.target = target;
 }
 

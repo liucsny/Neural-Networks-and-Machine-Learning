@@ -1,7 +1,7 @@
 function Perceptron(){
   this.weights = [random(-1, 1), random(-1, 1)];
   this.learningRate = 0.1;
-  console.log(this.weights)
+  // console.log(this.weights)
 }
 
 Perceptron.prototype.guess = function(locationArray){
@@ -10,7 +10,7 @@ Perceptron.prototype.guess = function(locationArray){
     sum += e * this.weights[i]
   });
   return this.sign(sum)
-}
+};
 
 Perceptron.prototype.train = function(inputsArray, target){
   let guess = this.guess(inputsArray);
@@ -18,7 +18,7 @@ Perceptron.prototype.train = function(inputsArray, target){
   for (let i = 0; i < this.weights.length; i++) {
     this.weights[i] += error * inputsArray[i] * this.learningRate; //???
   }
-}
+};
 
 Perceptron.prototype.sign = function(input){
   if(input >= 0){
@@ -26,4 +26,4 @@ Perceptron.prototype.sign = function(input){
   } else {
     return -1;
   }
-}
+};
