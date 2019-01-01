@@ -1,8 +1,12 @@
+function f(x) {
+  return 10 * x + 30;
+}
+
 function Point(){
-  this.x = random(0, width);
-  this.y = random(0, height);
+  this.x = random(-width/2, width/2);
+  this.y = random(-height/2, height/2);
   // if(this.x + this.y < (width + height)/2){
-  if(this.x < this.y ){
+  if(this.x < f(this.x) ){
     this.lable = 1;
   } else {
     this.lable = -1;
@@ -17,5 +21,6 @@ Point.prototype.show = function(){
     noStroke();
     fill(0);
   }
-  ellipse(this.x, this.y, 12);
-}
+  let canvasXY = cartesianToCanvas(this.x, this.y);
+  ellipse(canvasXY.x, canvasXY.y, 6);
+};
