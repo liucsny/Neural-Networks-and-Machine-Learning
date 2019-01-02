@@ -4,4 +4,8 @@ class NeuralNetwork {
         this.hidden_node = hidden_node;
         this.output_node = output_node;
     }
+
+    feedForward(input) {
+        // return guess;
+    }
 }

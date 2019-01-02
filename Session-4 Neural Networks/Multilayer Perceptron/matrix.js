@@ -67,4 +67,14 @@ class Matrix{
         }
         return this.matrix;
    }
+
+   transpose() {
+        let result = new Matrix(this.cols, this.rows);
+        for (let i = 0; i < result.rows; i++) {
+           for (let j = 0; j < result.cols; j++) {
+               result.matrix[i][j] = this.matrix[j][i];
+           }
+        }
+        return result;
+   }
 }
