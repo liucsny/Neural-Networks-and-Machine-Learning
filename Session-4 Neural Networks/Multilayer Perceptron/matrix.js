@@ -2,79 +2,96 @@ class Matrix{
     constructor (rows, cols) {
         this.rows = rows;
         this.cols = cols;
-        this.matrix = [];
+        this.data = [];
 
         for (let i = 0; i < this.rows; i++) {
-            this.matrix[i] = [];
+            this.data[i] = [];
             for (let j = 0; j < this.cols; j++) {
-                this.matrix[i][j] = 0;
+                this.data[i][j] = 0;
             }
         }
     }
 
-   add (val) {
+    add (val) {
         if(val instanceof Matrix){
             for (let i = 0; i < this.rows; i++) {
                 for (let j = 0; j < this.cols; j++) {
-                    this.matrix[i][j] += val.matrix[i][j];
+                    this.data[i][j] += val.data[i][j];
                 }
             }
         } else {
             for (let i = 0; i < this.rows; i++) {
                 for (let j = 0; j < this.cols; j++) {
-                    this.matrix[i][j] += val;
+                    this.data[i][j] += val;
                 }
             }
         }
 
-        return this.matrix;
+        return this.data;
     }
 
-   mult (val) {
+    static mult(a,b){
+        // console.log(this);
+        if(a.cols === b.rows){
+            let n = a.cols;
+            let result = new Matrix(a.rows, b.cols);
+            for (let i = 0; i < result.rows; i++) {
+                for (let j = 0; j < result.cols; j++) {
+                    let sum = 0;
+                    for (let k = 0; k < n; k++) {
+                        // console.log()
+                        sum += a.data[i][k] * b.data[k][j]
+                    }
+                    result.data[i][j] = sum;
+                }
+            }
+            return result;
+        } else {
+            return undefined;
+        }
+    }
+
+    mult (val) {
        if(val instanceof Matrix){
-           if(this.cols === val.rows){
-               let n = this.cols;
-               let result = new Matrix(this.rows, val.cols);
-               for (let i = 0; i < result.rows; i++) {
-                   for (let j = 0; j < result.cols; j++) {
-                       let sum = 0;
-                       for (let k = 0; k < n; k++) {
-                           // console.log()
-                           sum += this.matrix[i][k] * val.matrix[k][j]
-                       }
-                       result.matrix[i][j] = sum;
-                   }
-               }
-               return result;
-           } else {
-               return undefined;
-           }
        } else {
            for (let i = 0; i < this.rows; i++) {
                for (let j = 0; j < this.cols; j++) {
-                   this.matrix[i][j] *= val;
+                   this.data[i][j] *= val;
                }
            }
-           return this.matrix;
+           return this.data;
        }
     }
 
-   randomize () {
+    randomize () {
         for (let i = 0; i < this.rows; i++) {
             for (let j = 0; j < this.cols; j++) {
-                this.matrix[i][j] = Math.floor(Math.random() * 10);
+                this.data[i][j] = Math.floor(Math.random() * 10);
             }
         }
-        return this.matrix;
+        return this.data;
    }
 
    transpose() {
         let result = new Matrix(this.cols, this.rows);
         for (let i = 0; i < result.rows; i++) {
            for (let j = 0; j < result.cols; j++) {
-               result.matrix[i][j] = this.matrix[j][i];
+               result.data[i][j] = this.data[j][i];
            }
         }
         return result;
+   }
+
+   print() {
+        console.table(this.data)
+   }
+
+   map(fn) {
+       for (let i = 0; i < this.rows; i++) {
+           for (let j = 0; j < this.cols; j++) {
+               let val = this.data[i][j];
+               this.data[i][j] = fn(val);
+           }
+       }
    }
 }
