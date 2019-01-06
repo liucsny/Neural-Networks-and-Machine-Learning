@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c33c6467-93b4-4b00-90a9-c52a60ebcf2e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Session-4 Neural Networks/Multilayer Perceptron/matrix.js" beforeDir="false" afterPath="$PROJECT_DIR$/Session-4 Neural Networks/Multilayer Perceptron/matrix.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Session-4 Neural Networks/Multilayer Perceptron/nn.js" beforeDir="false" afterPath="$PROJECT_DIR$/Session-4 Neural Networks/Multilayer Perceptron/nn.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -25,25 +23,25 @@
         <entry file="file://$PROJECT_DIR$/Session-4 Neural Networks/Multilayer Perceptron/index.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="207">
-              <caret line="9" column="6" lean-forward="true" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+              <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="nn.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="nn.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Session-4 Neural Networks/Multilayer Perceptron/nn.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="9" column="5" lean-forward="true" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+            <state relative-caret-position="184">
+              <caret line="8" column="24" lean-forward="true" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="matrix.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="matrix.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Session-4 Neural Networks/Multilayer Perceptron/matrix.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
-              <caret line="59" column="5" lean-forward="true" selection-start-line="59" selection-start-column="5" selection-end-line="59" selection-end-column="5" />
+            <state relative-caret-position="591">
+              <caret line="59" column="5" selection-start-line="59" selection-start-column="5" selection-end-line="59" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -100,10 +98,10 @@
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="y" value="68" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="153" />
     <option name="width" value="1440" />
-    <option name="height" value="800" />
+    <option name="height" value="854" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -113,6 +111,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -151,7 +150,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -217,12 +215,14 @@
       <workItem from="1545539548979" duration="600000" />
       <workItem from="1545701881628" duration="790000" />
       <workItem from="1546146168524" duration="433000" />
-      <workItem from="1546232741850" duration="11520000" />
+      <workItem from="1546232741850" duration="11965000" />
+      <workItem from="1546479865432" duration="378000" />
+      <workItem from="1546740055760" duration="962000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31718000" />
+    <option name="totallyTimeSpent" value="33503000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -230,19 +230,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="68" width="1440" height="800" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="23" width="1440" height="877" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4985294" visible="true" weight="0.15555556" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4985294" visible="true" weight="0.15785764" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32708332" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.2685775" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32876712" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.3214649" />
-      <window_info id="npm" order="2" sideWeight="0.50147057" side_tool="true" weight="0.1858618" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32916668" />
+      <window_info id="npm" order="2" sideWeight="0.50147057" side_tool="true" weight="0.1858618" />
       <window_info id="Structure" order="1" sideWeight="0.5007257" side_tool="true" weight="0.14180285" />
-      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.0" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.29615384" />
       <window_info id="Favorites" order="3" sideWeight="0.5007257" side_tool="true" weight="0.14180285" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -251,6 +249,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32876712" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -286,6 +285,34 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Session-4 Neural Networks/Multilayer Perceptron/nn.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="9" column="5" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Session-4 Neural Networks/Multilayer Perceptron/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="9" column="6" lean-forward="true" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Session-4 Neural Networks/Multilayer Perceptron/matrix.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1357">
+          <caret line="59" column="5" lean-forward="true" selection-start-line="59" selection-start-column="5" selection-end-line="59" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Session-4 Neural Networks/Multilayer Perceptron/nn.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="9" column="5" lean-forward="true" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Session-4 Neural Networks/Multilayer Perceptron/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -586,17 +613,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Session-4 Neural Networks/Multilayer Perceptron/matrix.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="59" column="5" lean-forward="true" selection-start-line="59" selection-start-column="5" selection-end-line="59" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Session-4 Neural Networks/Multilayer Perceptron/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
-          <caret line="9" column="6" lean-forward="true" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -608,8 +628,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Session-4 Neural Networks/Multilayer Perceptron/nn.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="9" column="5" lean-forward="true" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+        <state relative-caret-position="184">
+          <caret line="8" column="24" lean-forward="true" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Session-4 Neural Networks/Multilayer Perceptron/matrix.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="591">
+          <caret line="59" column="5" selection-start-line="59" selection-start-column="5" selection-end-line="59" selection-end-column="5" />
         </state>
       </provider>
     </entry>
