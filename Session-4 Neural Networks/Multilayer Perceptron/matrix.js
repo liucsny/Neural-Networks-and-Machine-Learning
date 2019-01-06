@@ -30,7 +30,7 @@ class Matrix{
         return this.data;
     }
 
-    static mult(a,b){
+    static mult(a,b) {
         // console.log(this);
         if(a.cols === b.rows){
             let n = a.cols;
@@ -51,6 +51,24 @@ class Matrix{
         }
     }
 
+    static fromArray(array) {
+        let m = new Matrix(array.length, 1);
+        array.forEach((e, i) => {
+            m.data[i][0] = e;
+        });
+        return m;
+    }
+
+    toArray() {
+        let array = [];
+        for (let i = 0; i < this.rows; i++) {
+            for (let j = 0; j < this.cols; j++) {
+                array.push(this.data[i][j]);
+            }
+        }
+        return array;
+    }
+
     mult (val) {
        if(val instanceof Matrix){
        } else {
@@ -66,7 +84,7 @@ class Matrix{
     randomize () {
         for (let i = 0; i < this.rows; i++) {
             for (let j = 0; j < this.cols; j++) {
-                this.data[i][j] = Math.floor(Math.random() * 10);
+                this.data[i][j] = Math.random() * 2 - 1;
             }
         }
         return this.data;
