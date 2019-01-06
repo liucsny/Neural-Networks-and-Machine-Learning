@@ -16,7 +16,12 @@ class Matrix{
         if(val instanceof Matrix){
             for (let i = 0; i < this.rows; i++) {
                 for (let j = 0; j < this.cols; j++) {
-                    this.data[i][j] += val.data[i][j];
+                    if(this.data[i][j] === undefined || val.data[i][j] === undefined){
+                        console.log('Error! Size of two matrices must be the same!');
+                        return undefined;
+                    }else{
+                        this.data[i][j] += val.data[i][j];
+                    }
                 }
             }
         } else {
